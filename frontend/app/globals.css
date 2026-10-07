@@ -1,0 +1,84 @@
+ @tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------- Dark theme (default) ---------- */
+:root {
+  color-scheme: dark;
+  --canvas: 9 13 20;
+  --panel: 15 21 31;
+  --panel-2: 21 29 42;
+
+  --slate-50: 248 250 252;  --slate-100: 241 245 249; --slate-200: 226 232 240;
+  --slate-300: 203 213 225; --slate-400: 148 163 184; --slate-500: 100 116 139;
+  --slate-600: 71 85 105;   --slate-700: 51 65 85;    --slate-800: 38 50 70;
+  --slate-900: 15 23 42;    --slate-950: 5 8 18;
+
+  --accent-200: 195 207 255; --accent-300: 163 180 255; --accent-400: 132 153 255;
+  --accent-500: 106 130 255; --accent-600: 80 104 242;  --accent-700: 63 82 214;
+
+  --red-300: 252 165 165;    --red-400: 248 113 113;    --red-500: 239 68 68;
+  --amber-200: 253 230 138;  --amber-300: 252 211 77;   --amber-400: 251 191 36;  --amber-500: 245 158 11;
+  --orange-300: 253 186 116; --orange-400: 251 146 60;  --orange-500: 249 115 22;
+}
+
+/* ---------- Light theme: the slate scale is mirrored, so existing classes just work ---------- */
+[data-theme='light'] {
+  color-scheme: light;
+  --canvas: 238 241 247;
+  --panel: 255 255 255;
+  --panel-2: 244 246 251;
+
+  --slate-50: 5 8 18;       --slate-100: 15 23 42;    --slate-200: 30 41 59;
+  --slate-300: 51 65 85;    --slate-400: 71 85 105;   --slate-500: 100 116 139;
+  --slate-600: 148 163 184; --slate-700: 203 213 225; --slate-800: 226 232 240;
+  --slate-900: 241 245 249; --slate-950: 250 251 253;
+
+  --accent-200: 30 45 155;  --accent-300: 36 56 184;  --accent-400: 47 71 209;
+  --accent-500: 51 80 230;  --accent-600: 42 67 204;  --accent-700: 34 54 168;
+
+  --red-300: 185 28 28;     --red-400: 220 38 38;     --red-500: 239 68 68;
+  --amber-200: 146 64 14;   --amber-300: 180 83 9;    --amber-400: 217 119 6;   --amber-500: 217 119 6;
+  --orange-300: 194 65 12;  --orange-400: 234 88 12;  --orange-500: 234 88 12;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* <main> in layout.js does the scrolling */
+  background-color: rgb(var(--canvas));
+  color: rgb(var(--slate-200));
+  font-family: var(--font-ui), var(--font-urdu), system-ui, sans-serif;
+}
+
+h1 {
+  font-family: var(--font-display), var(--font-ui), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Urdu reads better with more line height */
+[dir='auto']:lang(ur),
+textarea[dir='auto'] {
+  line-height: 1.9;
+}
+
+::selection {
+  background: rgb(var(--accent-500) / 0.3);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--slate-700)) transparent;
+}
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgb(var(--slate-700)); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--accent-500)); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
