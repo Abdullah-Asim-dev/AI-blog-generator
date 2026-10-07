@@ -7,7 +7,10 @@ import axios from 'axios';
 import { ArrowRight, Check, Circle, RotateCcw, X, Lightbulb, Search } from 'lucide-react';
 
 const MAX_KEYWORDS = 10;
-const API_BASE = 'http://127.0.0.1:8001/api/v1'; // change the port if your backend uses another
+const API_BASE = process.env.NEXT_PUBLIC_API_URL 
+  ? process.env.NEXT_PUBLIC_API_URL.replace(/\/generate\$/, '') 
+  : 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1';
+  // const API_BASE = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1' // change the port if your backend uses another
 
 const AUDIENCES = [
   { id: 'general', label: 'General', hint: 'Simple, clear language' },

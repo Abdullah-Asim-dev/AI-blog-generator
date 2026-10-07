@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Send, Eye, EyeOff, Check, ExternalLink, ArrowLeft, X } from 'lucide-react';
 
 // Change the port here if your backend runs somewhere else
-const API_BASE = 'http://127.0.0.1:8001/api/v1';
+const API_BASE = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1';
 
 // Each site: which fields it needs. `key` must match the backend field name.
 const PLATFORMS = {

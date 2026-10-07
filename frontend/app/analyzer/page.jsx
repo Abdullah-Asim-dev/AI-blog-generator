@@ -5,8 +5,11 @@ import Link from 'next/link';
 import axios from 'axios';
 import { Check, AlertTriangle, ArrowRight, ArrowLeft, Sparkles } from 'lucide-react';
 
-const API_BASE = 'http://127.0.0.1:8001/api/v1'; // change the port if your backend uses another
-
+// change the port if your backend uses another
+// const API_BASE = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL 
+  ? process.env.NEXT_PUBLIC_API_URL.replace(/\/generate$/, '').replace(/\/$/, '')
+  : 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1';
 const getStr = (k, f = '') => {
   try { return localStorage.getItem(k) ?? f; } catch { return f; }
 };
