@@ -7,17 +7,14 @@ import { Cpu, PenLine, Copy, Check, Download, Sparkles, RefreshCw, ArrowLeft, Ar
 
 // Change the port here if your backend runs somewhere else
 // 🟢 Direct fallback fix to test instantly
-const API_URL = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1/generate';
-// Turns the saved research into plain text the writer can use
-function researchToText(r) {
-  if (!r || typeof r !== 'object') return '';
-  const lines = [];
-  if (r.facts?.length) lines.push('Facts (use these, with their source):', ...r.facts.map((f) => `- ${f}`));
+// 🟢 EXACT LIVE ENDPOINT BACKEND ROUTE
+const API_URL = 'https://onrender.com';
+
   if (r.questions?.length) lines.push('', 'Questions people ask (answer them in the article and the FAQ):', ...r.questions.map((q) => `- ${q}`));
   if (r.gaps?.length) lines.push('', 'Angles that competitors miss (cover them):', ...r.gaps.map((g) => `- ${g}`));
   if (r.sources?.length) lines.push('', 'Source URLs:', ...r.sources.map((s) => `- ${s.title} - ${s.url}`));
   return lines.join('\n');
-}
+
 
 const getStr = (k, f = '') => {
   try { return localStorage.getItem(k) ?? f; } catch { return f; }
