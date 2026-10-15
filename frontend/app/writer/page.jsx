@@ -6,7 +6,7 @@ import axios from 'axios';
 import { Cpu, PenLine, Copy, Check, Download, Sparkles, RefreshCw, ArrowLeft, ArrowRight, Square } from 'lucide-react';
 
 // 🟢 LIVE PRODUCTION BACKEND URL MAPPED SUCCESSFULLY
-const API_URL = 'https://onrender.com';
+const API_URL = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1/generate';
 
 // Turns the saved research into plain text the writer can use
 function researchToText(r) {
