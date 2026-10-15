@@ -4,10 +4,14 @@ from app.api.v1.endpoints import router as api_router
 
 app = FastAPI(title="LuminaWrite AI Core Engine Gateway")
 
-# CORS Access Policies Configuration Layer
+# Only allow your live production frontend website
+origins = [
+    "https://ai-blog-generator-5bsm.vercel.app/",  # 🟢 Sirf aap ka live Vercel frontend link
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Global handshake allow karne ke liye wild-card configuration
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
