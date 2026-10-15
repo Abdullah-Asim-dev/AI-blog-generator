@@ -6,9 +6,8 @@ import axios from 'axios';
 import { Cpu, PenLine, Copy, Check, Download, Sparkles, RefreshCw, ArrowLeft, ArrowRight, Square } from 'lucide-react';
 
 // Change the port here if your backend runs somewhere else
-const API_URL = process.env.NEXT_PUBLIC_API_URL 
-  || 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1/generate';
-
+// 🟢 Direct fallback fix to test instantly
+const API_URL = 'https://ai-blog-generator-1-0wlv.onrender.com/api/v1/generate';
 // Turns the saved research into plain text the writer can use
 function researchToText(r) {
   if (!r || typeof r !== 'object') return '';
