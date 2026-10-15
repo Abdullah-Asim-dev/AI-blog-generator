@@ -6,7 +6,7 @@ app = FastAPI(title="LuminaWrite AI Core Engine Gateway")
 
 # Only allow your live production frontend website
 origins = [
-    "https://ai-blog-generator-lac.vercel.app/",  # 🟢 Sirf aap ka live Vercel frontend link
+    "https://ai-blog-generator-5bsm.vercel.app/",  # 🟢 Sirf aap ka live Vercel frontend link
 ]
 
 app.add_middleware(
