@@ -5,16 +5,19 @@ import Link from 'next/link';
 import axios from 'axios';
 import { Cpu, PenLine, Copy, Check, Download, Sparkles, RefreshCw, ArrowLeft, ArrowRight, Square } from 'lucide-react';
 
-// Change the port here if your backend runs somewhere else
-// 🟢 Direct fallback fix to test instantly
-// 🟢 EXACT LIVE ENDPOINT BACKEND ROUTE
+// 🟢 LIVE PRODUCTION BACKEND URL MAPPED SUCCESSFULLY
 const API_URL = 'https://onrender.com';
 
+// Turns the saved research into plain text the writer can use
+function researchToText(r) {
+  if (!r || typeof r !== 'object') return '';
+  const lines = [];
+  if (r.facts?.length) lines.push('Facts (use these, with their source):', ...r.facts.map((f) => `- ${f}`));
   if (r.questions?.length) lines.push('', 'Questions people ask (answer them in the article and the FAQ):', ...r.questions.map((q) => `- ${q}`));
   if (r.gaps?.length) lines.push('', 'Angles that competitors miss (cover them):', ...r.gaps.map((g) => `- ${g}`));
   if (r.sources?.length) lines.push('', 'Source URLs:', ...r.sources.map((s) => `- ${s.title} - ${s.url}`));
   return lines.join('\n');
-
+}
 
 const getStr = (k, f = '') => {
   try { return localStorage.getItem(k) ?? f; } catch { return f; }
@@ -58,11 +61,9 @@ export default function SplitWriterWorkspace() {
     setLoaded(true);
   }, []);
 
-  // Autosave edits
   useEffect(() => {
     if (loaded) setStr('cache_human_blog', finalText);
   }, [loaded, finalText]);
-
   const generate = async () => {
     if (!brief?.topic) return;
     if (finalText.trim() && !window.confirm('This replaces your current text with a new draft. Continue?')) return;
@@ -90,7 +91,7 @@ export default function SplitWriterWorkspace() {
       setAiDraft(data.original_ai_draft || '');
       setFinalText(data.final_humanized_blog || '');
       setStr('cache_ai_draft', data.original_ai_draft || '');
-      setStr('blog_seo_pack', ''); // the old SEO pack belongs to the old article
+      setStr('blog_seo_pack', ''); 
     } catch (e) {
       if (axios.isCancel(e)) setError('Stopped. Your previous text is unchanged.');
       else if (e.code === 'ECONNABORTED') setError('The server took too long. Try a shorter length.');
@@ -131,12 +132,10 @@ export default function SplitWriterWorkspace() {
   const target = Number(brief?.length || 0);
   const hasText = finalText.trim().length > 0;
 
-  const btnGhost =
-    'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-800 disabled:opacity-40 disabled:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70';
+  const btnGhost = 'flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs text-slate-300 hover:bg-slate-800 disabled:opacity-40 disabled:hover:bg-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70';
 
   if (!loaded) return null;
 
-  // No brief yet
   if (!brief.topic) {
     return (
       <div className="mx-auto flex h-full max-w-md flex-col items-center justify-center px-4 text-center">
@@ -151,7 +150,6 @@ export default function SplitWriterWorkspace() {
 
   return (
     <div className="mx-auto flex h-full min-h-[640px] w-full max-w-7xl flex-col px-4 py-5 sm:px-6">
-      {/* Header */}
       <header className="mb-4 flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className="mt-0.5 text-xl font-bold text-slate-50 sm:text-2xl">Write your article</h1>
@@ -169,11 +167,11 @@ export default function SplitWriterWorkspace() {
 
         <div className="flex items-center gap-2">
           {loading ? (
-            <button onClick={stop} className="flex items-center gap-2 rounded-xl border border-slate-600 px-5 py-2.5 text-sm font-medium text-slate-200 hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70">
+            <button onClick={stop} className="flex items-center gap-2 rounded-xl border border-slate-600 px-5 py-2.5 text-sm font-medium text-slate-200 hover:bg-slate-800 focus:outline-none">
               <Square size={13} /> Stop
             </button>
           ) : (
-            <button onClick={generate} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 active:scale-[0.99]">
+            <button onClick={generate} className="flex items-center gap-2 rounded-xl bg-emerald-500 px-5 py-2.5 text-sm font-semibold text-slate-950 hover:bg-emerald-400 focus:outline-none">
               {hasText ? <><RefreshCw size={15} /> Write again</> : <><Sparkles size={15} /> Write article</>}
             </button>
           )}
@@ -189,11 +187,9 @@ export default function SplitWriterWorkspace() {
         </div>
       )}
 
-      {/* Two panels */}
       <div className="grid min-h-0 flex-1 gap-4 lg:grid-cols-2">
-        {/* AI draft */}
-        <section className="flex min-h-[260px] flex-col overflow-hidden rounded-2xl border border-slate-800 bg-panel">
-          <div className="flex items-center justify-between border-b border-slate-800 bg-panel2 px-4 py-2.5">
+        <section className="flex min-h-[260px] flex-col overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
+          <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-2.5">
             <h2 className="flex items-center gap-2 text-sm font-medium text-orange-300">
               <Cpu size={15} /> AI first draft
             </h2>
@@ -204,7 +200,6 @@ export default function SplitWriterWorkspace() {
                 disabled={!aiDraft}
                 onClick={() => setFinalText(aiDraft)}
                 className={btnGhost}
-                title="Replace the edited version with this draft"
               >
                 Use this version
               </button>
@@ -214,15 +209,13 @@ export default function SplitWriterWorkspace() {
             readOnly
             dir="auto"
             value={aiDraft}
-            aria-label="AI first draft"
             placeholder="The AI's raw draft will appear here after you write the article."
-            className="w-full flex-1 resize-none bg-transparent p-5 font-mono text-xs leading-relaxed text-slate-400 placeholder:text-slate-600 focus:outline-none"
+            className="w-full flex-1 resize-none bg-transparent p-5 font-mono text-xs leading-relaxed text-slate-400 focus:outline-none"
           />
         </section>
 
-        {/* Final editable */}
-        <section className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-emerald-500/25 bg-panel">
-          <div className="flex items-center justify-between border-b border-slate-800 bg-panel2 px-4 py-2.5">
+        <section className="relative flex min-h-[320px] flex-col overflow-hidden rounded-2xl border border-emerald-500/25 bg-slate-900">
+          <div className="flex items-center justify-between border-b border-slate-800 bg-slate-950 px-4 py-2.5">
             <h2 className="flex items-center gap-2 text-sm font-medium text-emerald-300">
               <PenLine size={15} /> Final version <span className="text-xs font-normal text-slate-500">(you can edit)</span>
             </h2>
@@ -251,9 +244,8 @@ export default function SplitWriterWorkspace() {
             value={finalText}
             onChange={(e) => setFinalText(e.target.value)}
             disabled={loading}
-            aria-label="Final article"
             placeholder={loading ? 'Writing your article… this can take up to a minute.' : 'Your finished article will appear here. Edit it freely, changes save automatically.'}
-            className="w-full flex-1 resize-none bg-transparent p-5 font-serif text-[15px] leading-relaxed text-slate-200 placeholder:text-slate-600 focus:outline-none disabled:opacity-60"
+            className="w-full flex-1 resize-none bg-transparent p-5 font-serif text-[15px] leading-relaxed text-slate-200 focus:outline-none"
           />
         </section>
       </div>
